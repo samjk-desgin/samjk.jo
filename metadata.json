@@ -1,0 +1,6 @@
+{
+  "name": "AIRLYTICS",
+  "description": "Accounting Data Analytics platform for analyzing and comparing the financial performance of airline companies over a five-year period.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
