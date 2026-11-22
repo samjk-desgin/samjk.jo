@@ -11,7 +11,7 @@ export interface NavItem {
   id: PageId;
   label: string;
   shortDescription: string;
-  stageStatus: 'Active (Stage 1)' | 'Planned (Stage 2+)';
+  stageStatus: 'Implemented' | 'Implemented (Illustrative Data Mode)' | 'Planned';
 }
 
 /**
@@ -35,6 +35,9 @@ export interface AnnualFinancialRow {
   shareholdersEquityUsdB: number;
   operatingCashFlowUsdB?: number | null;
   capitalExpendituresUsdB?: number | null;
+  inventoryUsdB?: number | null;
+  cashAndEquivalentsUsdB?: number | null;
+  ebitdaUsdB?: number | null;
 }
 
 export interface CostStructureItem {
@@ -64,4 +67,51 @@ export interface PageBlueprint {
   }[];
   requiredOfficialInputs: string[];
   previewTabs: string[];
+}
+
+export type RatioCategory =
+  | 'profitability'
+  | 'liquidity'
+  | 'leverage'
+  | 'cash-flow';
+
+export type RatioId =
+  | 'operating-margin'
+  | 'net-profit-margin'
+  | 'roa'
+  | 'roe'
+  | 'asset-turnover'
+  | 'current-ratio'
+  | 'quick-ratio'
+  | 'debt-to-equity'
+  | 'debt-to-assets'
+  | 'interest-coverage'
+  | 'net-debt-to-ebitda'
+  | 'fcf-margin';
+
+export type RatioUnit = '%' | 'x' | 'times';
+
+export type RatioStatus = 'valid' | 'unavailable' | 'invalid-denominator';
+
+export interface RatioDefinitionMeta {
+  id: RatioId;
+  category: RatioCategory;
+  name: string;
+  formula: string;
+  unit: RatioUnit;
+  sourceStatement: string;
+  usesAverageBalance?: boolean;
+}
+
+export interface RatioEvaluation extends RatioDefinitionMeta {
+  fiscalYear: string;
+  value: number | null;
+  formattedValue: string;
+  status: RatioStatus;
+  statusReason?: string;
+  numeratorLabel: string;
+  numeratorValueText: string;
+  denominatorLabel: string;
+  denominatorValueText: string;
+  interpretation: string;
 }

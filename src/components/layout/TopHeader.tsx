@@ -42,9 +42,11 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
             ·
           </span>
           <span className="hidden md:inline text-xs text-slate-500 whitespace-nowrap shrink-0">
-            {activePage === 'dashboard'
-              ? 'Illustrative Placeholder Data'
-              : 'Architectural Blueprint'}
+            {activePage === 'reports'
+              ? 'Architectural Blueprint'
+              : activePage === 'learning-center'
+              ? 'Educational Reference'
+              : 'Illustrative Data Mode'}
           </span>
         </nav>
       </div>

@@ -701,7 +701,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
   const costItems = (carrierScope === 'carrier-b' ? carrierB : carrierA).costStructurePct;
 
-  const upcomingModules = NAVIGATION_ITEMS.filter((item) => item.id !== 'dashboard');
+  const directoryModules = NAVIGATION_ITEMS;
 
   return (
     <div className="space-y-6">
@@ -709,7 +709,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       <section className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-xs font-medium text-slate-500">
-            Stage 1 Foundation · Executive Financial Overview
+            Stage 2: Interactive Financial Analysis &amp; Benchmarking — Illustrative Data Mode
           </p>
           <h1 className="mt-1 font-display text-2xl font-bold tracking-tight text-[#0B192C] sm:text-3xl">
             Airline Financial Performance Dashboard
@@ -1401,43 +1401,60 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       </section>
 
       {/* Platform Website Structure Quick Directory */}
-      <section aria-label="Planned Platform Modules" className="space-y-3">
+      <section aria-label="Platform Architecture Directory" className="space-y-3">
         <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
           <h2 className="font-display text-base font-semibold text-[#0B192C]">
             Platform Architecture Directory
           </h2>
           <p className="text-xs text-slate-500">
-            Click any module to inspect its planned purpose, components, and official data inputs
+            Navigate to any implemented analytical workspace or inspect planned module blueprints
           </p>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {upcomingModules.map((mod) => (
-            <button
-              key={mod.id}
-              type="button"
-              onClick={() => onNavigate(mod.id)}
-              className="group flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-5 text-left hover:border-[#1E3A5F] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B192C]"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-2">
-                  <h3 className="font-display text-sm font-semibold text-[#0B192C]">
-                    {mod.label}
-                  </h3>
-                  <span className="text-[11px] font-medium text-slate-400">
-                    {mod.stageStatus}
-                  </span>
+          {directoryModules.map((mod) => {
+            const isPlanned = mod.stageStatus === 'Planned';
+            return (
+              <button
+                key={mod.id}
+                type="button"
+                onClick={() => onNavigate(mod.id)}
+                className="group flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-5 text-left hover:border-[#1E3A5F] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B192C]"
+              >
+                <div>
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="font-display text-sm font-semibold text-[#0B192C]">
+                      {mod.label}
+                    </h3>
+                    <span
+                      className={`text-[11px] font-medium text-right ${
+                        isPlanned
+                          ? 'text-slate-400'
+                          : mod.stageStatus === 'Implemented (Illustrative Data Mode)'
+                          ? 'text-[#0284C7]'
+                          : 'text-[#1E3A5F]'
+                      }`}
+                    >
+                      {mod.stageStatus}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs leading-relaxed text-slate-600">
+                    {mod.shortDescription}
+                  </p>
                 </div>
-                <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                  {mod.shortDescription}
-                </p>
-              </div>
-              <div className="mt-4 flex items-center gap-1.5 text-xs font-medium text-[#1E3A5F] group-hover:text-[#0B192C]">
-                <span>Inspect Module Blueprint</span>
-                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-              </div>
-            </button>
-          ))}
+                <div className="mt-4 flex items-center gap-1.5 text-xs font-medium text-[#1E3A5F] group-hover:text-[#0B192C]">
+                  <span>
+                    {mod.id === 'dashboard'
+                      ? 'Active Executive View'
+                      : isPlanned
+                      ? 'Inspect Module Blueprint'
+                      : 'Open Module'}
+                  </span>
+                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                </div>
+              </button>
+            );
+          })}
         </div>
       </section>
     </div>

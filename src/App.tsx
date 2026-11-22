@@ -4,6 +4,11 @@ import { MethodologyModal } from './components/layout/MethodologyModal';
 import { Sidebar } from './components/layout/Sidebar';
 import { TopHeader } from './components/layout/TopHeader';
 import { ModuleScaffoldPage } from './components/pages/ModuleScaffoldPage';
+import { FinancialAnalysisPage } from './components/pages/FinancialAnalysisPage';
+import { FinancialRatiosPage } from './components/pages/FinancialRatiosPage';
+import { CompanyComparisonPage } from './components/pages/CompanyComparisonPage';
+import { CompaniesPage } from './components/pages/CompaniesPage';
+import { LearningCenterPage } from './components/pages/LearningCenterPage';
 import { NAVIGATION_ITEMS } from './data/illustrativeData';
 import { PageId } from './types/analytics';
 
@@ -41,6 +46,31 @@ export default function App() {
               onNavigate={setActivePage}
               onOpenMethodology={() => setMethodologyOpen(true)}
             />
+          ) : activePage === 'companies' ? (
+            <CompaniesPage
+              onReturnToDashboard={() => setActivePage('dashboard')}
+              onOpenMethodology={() => setMethodologyOpen(true)}
+            />
+          ) : activePage === 'financial-analysis' ? (
+            <FinancialAnalysisPage
+              onReturnToDashboard={() => setActivePage('dashboard')}
+              onOpenMethodology={() => setMethodologyOpen(true)}
+            />
+          ) : activePage === 'company-comparison' ? (
+            <CompanyComparisonPage
+              onReturnToDashboard={() => setActivePage('dashboard')}
+              onOpenMethodology={() => setMethodologyOpen(true)}
+            />
+          ) : activePage === 'financial-ratios' ? (
+            <FinancialRatiosPage
+              onReturnToDashboard={() => setActivePage('dashboard')}
+              onOpenMethodology={() => setMethodologyOpen(true)}
+            />
+          ) : activePage === 'learning-center' ? (
+            <LearningCenterPage
+              onReturnToDashboard={() => setActivePage('dashboard')}
+              onOpenMethodology={() => setMethodologyOpen(true)}
+            />
           ) : (
             <ModuleScaffoldPage
               pageId={activePage}
@@ -55,7 +85,7 @@ export default function App() {
               AIRLYTICS · University Accounting Information Systems & Business Analytics Project
             </span>
             <span>
-              Stage 1: Website Structure & Initial Dashboard · All figures currently illustrative
+              Stage 2: Interactive Financial Analysis &amp; Benchmarking — Illustrative Data Mode
             </span>
           </div>
         </footer>

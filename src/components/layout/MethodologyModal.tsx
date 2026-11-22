@@ -47,12 +47,13 @@ export const MethodologyModal: React.FC<MethodologyModalProps> = ({ open, onClos
               1. Strict Data Integrity Rule (Illustrative vs. Official)
             </h3>
             <p>
-              Every numerical figure currently rendered in the Stage 1 Dashboard is strictly{' '}
+              Every numerical figure currently rendered across the Stage 2 analytical modules is
+              strictly{' '}
               <strong className="font-semibold text-slate-900">
                 illustrative placeholder data
               </strong>{' '}
-              used to validate chart axes, tabular alignment, and layout responsiveness. No real
-              airline’s audited results are fabricated or implied.
+              used to validate accounting formulas, chart axes, tabular alignment, and layout
+              responsiveness. No real airline’s audited results are fabricated or implied.
             </p>
             <p>
               In subsequent development stages, official figures will be extracted directly from
@@ -63,7 +64,7 @@ export const MethodologyModal: React.FC<MethodologyModalProps> = ({ open, onClos
 
           <section className="space-y-2 border-t border-slate-200 pt-5">
             <h3 className="font-display text-sm font-semibold text-[#0B192C]">
-              2. Target Technical Architecture & Current Preview
+              2. Target Technical Architecture &amp; Current Preview
             </h3>
             <div className="overflow-hidden rounded-lg border border-slate-200">
               <table className="w-full text-left text-xs">
@@ -71,14 +72,14 @@ export const MethodologyModal: React.FC<MethodologyModalProps> = ({ open, onClos
                   <tr>
                     <th className="px-4 py-2.5 font-semibold">Layer</th>
                     <th className="px-4 py-2.5 font-semibold">Proposed AIS Stack</th>
-                    <th className="px-4 py-2.5 font-semibold">Stage 1 Interactive Preview</th>
+                    <th className="px-4 py-2.5 font-semibold">Current Interactive Preview</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200">
                   <tr>
                     <td className="px-4 py-2.5 font-medium text-slate-900">Presentation</td>
                     <td className="px-4 py-2.5">HTML, CSS, JavaScript</td>
-                    <td className="px-4 py-2.5">React, TypeScript & Tailwind CSS</td>
+                    <td className="px-4 py-2.5">React, TypeScript &amp; Tailwind CSS</td>
                   </tr>
                   <tr>
                     <td className="px-4 py-2.5 font-medium text-slate-900">Visualizations</td>
@@ -86,14 +87,14 @@ export const MethodologyModal: React.FC<MethodologyModalProps> = ({ open, onClos
                     <td className="px-4 py-2.5">Chart.js (via react-chartjs-2)</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-2.5 font-medium text-slate-900">Backend & Logic</td>
-                    <td className="px-4 py-2.5">Python (Ratio Engine & ETL)</td>
-                    <td className="px-4 py-2.5">Planned for Stage 2+ API integration</td>
+                    <td className="px-4 py-2.5 font-medium text-slate-900">Backend &amp; Logic</td>
+                    <td className="px-4 py-2.5">Python (Ratio Engine &amp; ETL)</td>
+                    <td className="px-4 py-2.5">Client-side TypeScript calculations · Python backend pending</td>
                   </tr>
                   <tr>
                     <td className="px-4 py-2.5 font-medium text-slate-900">Database</td>
                     <td className="px-4 py-2.5">MySQL (Relational Schema)</td>
-                    <td className="px-4 py-2.5">Planned for Stage 2+ statement storage</td>
+                    <td className="px-4 py-2.5">Planned · MySQL integration pending</td>
                   </tr>
                 </tbody>
               </table>
@@ -102,24 +103,26 @@ export const MethodologyModal: React.FC<MethodologyModalProps> = ({ open, onClos
 
           <section className="space-y-2 border-t border-slate-200 pt-5">
             <h3 className="font-display text-sm font-semibold text-[#0B192C]">
-              3. Planned Incremental Build Roadmap
+              3. Incremental Build Roadmap
             </h3>
             <ol className="list-decimal pl-5 space-y-1.5 text-slate-700">
               <li>
-                <strong className="font-medium text-slate-900">Stage 1 (Current):</strong> Website
-                navigation structure across all 7 modules and initial Dashboard layout with Chart.js.
+                <strong className="font-medium text-slate-900">Stage 1:</strong> Website navigation
+                structure across all 7 modules and initial Dashboard layout with Chart.js.
               </li>
               <li>
-                <strong className="font-medium text-slate-900">Stage 2:</strong> Relational schema
-                design for airlines, fiscal periods, and normalized financial statement line items.
+                <strong className="font-medium text-slate-900">Stage 2 (Current):</strong>{' '}
+                Interactive Financial Analysis, Company Comparison, Financial Ratios, and Entity
+                Profiles running in Illustrative Data Mode.
               </li>
               <li>
-                <strong className="font-medium text-slate-900">Stage 3:</strong> Official annual
-                report data ingestion for two selected airlines and Python ratio computation.
+                <strong className="font-medium text-slate-900">Stage 3:</strong> Relational MySQL
+                schema integration, official annual report ingestion for two selected airlines, and
+                Python backend ratio computation.
               </li>
               <li>
-                <strong className="font-medium text-slate-900">Stage 4:</strong> Interactive
-                Company Comparison, Learning Center modules, and exportable analytical Reports.
+                <strong className="font-medium text-slate-900">Stage 4:</strong> Learning Center
+                interactive modules and exportable analytical Reports backed by verified filings.
               </li>
             </ol>
           </section>

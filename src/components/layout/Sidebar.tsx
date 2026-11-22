@@ -125,9 +125,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     />
                     <span className="truncate whitespace-nowrap">{item.label}</span>
                   </span>
-                  {item.id !== 'dashboard' && (
+                  {item.stageStatus === 'Planned' && (
                     <span className="ml-2 shrink-0 text-[11px] text-slate-400">
-                      Plan
+                      Planned
                     </span>
                   )}
                 </button>
@@ -138,9 +138,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Institutional Project Footer */}
         <div className="border-t border-[#162944] px-5 py-4 text-xs text-slate-400 space-y-1">
-          <p className="font-medium text-slate-200">AIS & Business Analytics</p>
+          <p className="font-medium text-slate-200">AIS &amp; Business Analytics</p>
           <p className="leading-relaxed text-slate-400">
-            Stage 1 · Structure & Initial Dashboard
+            Stage 2: Interactive Financial Analysis &amp; Benchmarking — Illustrative Data Mode
           </p>
         </div>
       </aside>
