@@ -13,13 +13,7 @@ import {
   Tooltip,
 } from 'chart.js';
 import { Bar, Line } from 'react-chartjs-2';
-import {
-  ArrowLeft,
-  Download,
-  FileText,
-  Info,
-  Printer,
-} from 'lucide-react';
+import { ArrowLeft, Download, FileText, Info, Printer } from 'lucide-react';
 import { ILLUSTRATIVE_CARRIERS } from '../../data/illustrativeData';
 import { AnnualFinancialRow, RatioEvaluation } from '../../types/analytics';
 import {
@@ -55,11 +49,13 @@ interface ReportsPageProps {
 
 type ReportScope = 'carrier-a' | 'carrier-b' | 'compare';
 
-function csvEscape(value: string): string {
-  if (/[",\n\r]/.test(value)) {
-    return `"${value.replace(/"/g, '""')}"`;
+function csvEscape(value: string | number | null | undefined): string {
+  if (value === null || value === undefined) return '';
+  const str = String(value);
+  if (/[",\n\r]/.test(str)) {
+    return `"${str.replace(/"/g, '""')}"`;
   }
-  return value;
+  return str;
 }
 
 function formatRatioSpread(evA: RatioEvaluation, evB: RatioEvaluation): string {
@@ -175,8 +171,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
       ];
     }
 
-    const row: AnnualFinancialRow =
-      reportScope === 'carrier-b' ? rowB : rowA;
+    const row: AnnualFinancialRow = reportScope === 'carrier-b' ? rowB : rowA;
     const prevRow: AnnualFinancialRow | null =
       reportScope === 'carrier-b' ? prevB : prevA;
     const activeEvals =
@@ -362,7 +357,6 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
           }),
           borderColor: '#475569',
           backgroundColor: 'rgba(71, 85, 105, 0.08)',
-          borderDash: [4, 4],
           tension: 0.25,
           fill: false,
           spanGaps: false,
@@ -453,7 +447,6 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
     );
     lines.push('');
 
-    // Section 1: 5-Year Financial Performance Summary
     lines.push(csvEscape('Five-Year Financial Performance Summary ($B)'));
     if (reportScope === 'compare') {
       lines.push(
@@ -476,18 +469,16 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
         const rB = carrierB.annualSeries[idx];
         lines.push(
           [
-            yr,
-            formatCurrencyB(rA.operatingRevenueUsdB),
-            formatCurrencyB(rB.operatingRevenueUsdB),
-            formatCurrencyB(getOperatingProfit(rA)),
-            formatCurrencyB(getOperatingProfit(rB)),
-            formatCurrencyB(getNetIncome(rA)),
-            formatCurrencyB(getNetIncome(rB)),
-            formatCurrencyB(getFreeCashFlow(rA)),
-            formatCurrencyB(getFreeCashFlow(rB)),
-          ]
-            .map(csvEscape)
-            .join(',')
+            csvEscape(yr),
+            csvEscape(formatCurrencyB(rA.operatingRevenueUsdB)),
+            csvEscape(formatCurrencyB(rB.operatingRevenueUsdB)),
+            csvEscape(formatCurrencyB(getOperatingProfit(rA))),
+            csvEscape(formatCurrencyB(getOperatingProfit(rB))),
+            csvEscape(formatCurrencyB(getNetIncome(rA))),
+            csvEscape(formatCurrencyB(getNetIncome(rB))),
+            csvEscape(formatCurrencyB(getFreeCashFlow(rA))),
+            csvEscape(formatCurrencyB(getFreeCashFlow(rB))),
+          ].join(',')
         );
       });
     } else {
@@ -510,27 +501,23 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
       activeSingleCarrier.annualSeries.forEach((r) => {
         lines.push(
           [
-            r.fiscalYear,
-            formatCurrencyB(r.operatingRevenueUsdB),
-            formatCurrencyB(r.operatingExpensesUsdB),
-            formatCurrencyB(getOperatingProfit(r)),
-            formatCurrencyB(getPreTaxIncome(r)),
-            formatCurrencyB(getNetIncome(r)),
-            formatCurrencyB(getFreeCashFlow(r)),
-            formatCurrencyB(r.totalAssetsUsdB),
-            formatCurrencyB(r.totalInterestBearingDebtUsdB ?? null),
-            formatCurrencyB(r.shareholdersEquityUsdB),
-          ]
-            .map(csvEscape)
-            .join(',')
+            csvEscape(r.fiscalYear),
+            csvEscape(formatCurrencyB(r.operatingRevenueUsdB)),
+            csvEscape(formatCurrencyB(r.operatingExpensesUsdB)),
+            csvEscape(formatCurrencyB(getOperatingProfit(r))),
+            csvEscape(formatCurrencyB(getPreTaxIncome(r))),
+            csvEscape(formatCurrencyB(getNetIncome(r))),
+            csvEscape(formatCurrencyB(getFreeCashFlow(r))),
+            csvEscape(formatCurrencyB(r.totalAssetsUsdB)),
+            csvEscape(formatCurrencyB(r.totalInterestBearingDebtUsdB ?? null)),
+            csvEscape(formatCurrencyB(r.shareholdersEquityUsdB)),
+          ].join(',')
         );
       });
     }
 
     lines.push('');
-    lines.push(
-      csvEscape(`Financial Indicators & Ratio Traceability (${selectedYear})`)
-    );
+    lines.push(csvEscape(`Financial Indicators & Ratio Traceability (${selectedYear})`));
 
     if (reportScope === 'compare') {
       lines.push(
@@ -552,8 +539,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
         const evA = ratioEvaluationsA[i];
         const evB = ratioEvaluationsB[i];
         const catLabel =
-          RATIO_CATEGORY_LABELS.find((c) => c.id === meta.category)?.label ??
-          meta.category;
+          RATIO_CATEGORY_LABELS.find((c) => c.id === meta.category)?.label ?? meta.category;
         const traceA =
           evA.status === 'valid'
             ? `${evA.numeratorValueText} / ${evA.denominatorValueText}`
@@ -564,18 +550,16 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
             : evB.statusReason ?? 'Missing required inputs';
         lines.push(
           [
-            catLabel,
-            meta.name,
-            evA.formattedValue,
-            evB.formattedValue,
-            formatRatioSpread(evA, evB),
-            meta.formula,
-            traceA,
-            traceB,
-            meta.sourceStatement,
-          ]
-            .map(csvEscape)
-            .join(',')
+            csvEscape(catLabel),
+            csvEscape(meta.name),
+            csvEscape(evA.formattedValue),
+            csvEscape(evB.formattedValue),
+            csvEscape(formatRatioSpread(evA, evB)),
+            csvEscape(meta.formula),
+            csvEscape(traceA),
+            csvEscape(traceB),
+            csvEscape(meta.sourceStatement),
+          ].join(',')
         );
       });
     } else {
@@ -600,17 +584,15 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
           RATIO_CATEGORY_LABELS.find((c) => c.id === ev.category)?.label ?? ev.category;
         lines.push(
           [
-            catLabel,
-            ev.name,
-            ev.formattedValue,
-            ev.status === 'valid' ? 'Computed' : ev.statusReason ?? ev.status,
-            ev.formula,
-            `${ev.numeratorLabel}: ${ev.numeratorValueText}`,
-            `${ev.denominatorLabel}: ${ev.denominatorValueText}`,
-            ev.sourceStatement,
-          ]
-            .map(csvEscape)
-            .join(',')
+            csvEscape(catLabel),
+            csvEscape(ev.name),
+            csvEscape(ev.formattedValue),
+            csvEscape(ev.status === 'valid' ? 'Computed' : ev.statusReason ?? ev.status),
+            csvEscape(ev.formula),
+            csvEscape(`${ev.numeratorLabel}: ${ev.numeratorValueText}`),
+            csvEscape(`${ev.denominatorLabel}: ${ev.denominatorValueText}`),
+            csvEscape(ev.sourceStatement),
+          ].join(',')
         );
       });
     }
@@ -650,7 +632,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
           <button
             type="button"
             onClick={onReturnToDashboard}
-            className="mb-3 inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-[#0B192C] transition-colors print:hidden"
+            className="mb-3 inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 transition-colors hover:text-[#0B192C] print:hidden"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             <span>Back to Dashboard</span>
@@ -668,7 +650,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
           <button
             type="button"
             onClick={handleExportCsv}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-[#0B192C] hover:bg-slate-50 transition-colors whitespace-nowrap"
+            className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-[#0B192C] transition-colors hover:bg-slate-50"
           >
             <Download className="h-3.5 w-3.5" />
             <span>Export CSV</span>
@@ -676,7 +658,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
           <button
             type="button"
             onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#0B192C] px-3.5 py-2 text-xs font-medium text-white hover:bg-[#132844] transition-colors whitespace-nowrap"
+            className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-[#0B192C] px-3.5 py-2 text-xs font-medium text-white transition-colors hover:bg-[#132844]"
           >
             <Printer className="h-3.5 w-3.5" />
             <span>Print / Save as PDF</span>
@@ -687,7 +669,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
       {/* Mandatory Data Integrity & Source Verification Notice */}
       <section
         aria-label="Report Data Integrity Disclaimer"
-        className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between"
+        className="print-avoid-break flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between"
       >
         <div className="flex items-start gap-3">
           <Info className="mt-0.5 h-4 w-4 shrink-0 text-[#1E3A5F]" />
@@ -704,7 +686,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
         <button
           type="button"
           onClick={onOpenMethodology}
-          className="shrink-0 self-start rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-[#0B192C] hover:bg-slate-100 transition-colors sm:self-center whitespace-nowrap print:hidden"
+          className="shrink-0 self-start whitespace-nowrap rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-[#0B192C] transition-colors hover:bg-slate-100 sm:self-center print:hidden"
         >
           View Data Policy
         </button>
@@ -764,7 +746,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
                 onClick={() => setSelectedYear(yr)}
                 className={`rounded-md px-2.5 py-1.5 font-mono text-xs font-medium transition-colors whitespace-nowrap ${
                   selectedYear === yr
-                    ? 'bg-white text-[#0B192C] shadow-sm'
+                    ? 'bg-white text-[#0B192C] shadow-xs'
                     : 'text-slate-600 hover:text-[#0B192C]'
                 }`}
               >
@@ -799,7 +781,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
         </ul>
       </section>
 
-      {/* Focus Fiscal Year Headline Summary Cards */}
+      {/* Selected Year Financial Snapshot */}
       <section aria-label="Selected Year Financial Snapshot" className="print-avoid-break">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {reportScope === 'compare' ? (
@@ -816,7 +798,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
                     B: {formatCurrencyB(rowB.operatingRevenueUsdB)}
                   </span>
                 </div>
-                <div className="mt-2 text-[11px] font-mono text-slate-500 tabular-nums">
+                <div className="mt-2 font-mono text-[11px] text-slate-500 tabular-nums">
                   Spread (A − B):{' '}
                   {formatSignedCurrencyB(
                     rowA.operatingRevenueUsdB - rowB.operatingRevenueUsdB
@@ -835,7 +817,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
                     B: {formatCurrencyB(getOperatingProfit(rowB))}
                   </span>
                 </div>
-                <div className="mt-2 text-[11px] font-mono text-slate-500 tabular-nums">
+                <div className="mt-2 font-mono text-[11px] text-slate-500 tabular-nums">
                   Spread (A − B):{' '}
                   {formatSignedCurrencyB(
                     getOperatingProfit(rowA) - getOperatingProfit(rowB)
@@ -854,7 +836,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
                     B: {formatCurrencyB(getNetIncome(rowB))}
                   </span>
                 </div>
-                <div className="mt-2 text-[11px] font-mono text-slate-500 tabular-nums">
+                <div className="mt-2 font-mono text-[11px] text-slate-500 tabular-nums">
                   Spread (A − B):{' '}
                   {formatSignedCurrencyB(getNetIncome(rowA) - getNetIncome(rowB))}
                 </div>
@@ -871,7 +853,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
                     B: {formatCurrencyB(getFreeCashFlow(rowB))}
                   </span>
                 </div>
-                <div className="mt-2 text-[11px] font-mono text-slate-500 tabular-nums">
+                <div className="mt-2 font-mono text-[11px] text-slate-500 tabular-nums">
                   OCF − CapEx · Illustrative Sample
                 </div>
               </div>
@@ -928,9 +910,9 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
         </div>
       </section>
 
-      {/* Report Visualizations */}
+      {/* Report Charts */}
       <section className="print-avoid-break grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
+        <div className="min-w-0 rounded-xl border border-slate-200 bg-white p-5">
           <h3 className="font-display text-sm font-semibold text-[#0B192C]">
             5-Year Revenue &amp; Operating Profit ($B)
           </h3>
@@ -938,15 +920,11 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
             FY 2020 – FY 2024 · Illustrative Sample Data
           </p>
           <div className="mt-4 h-[260px] w-full">
-            <Bar
-              key={`rep-bar-${reportScope}`}
-              data={barChartData}
-              options={barChartOptions}
-            />
+            <Bar data={barChartData} options={barChartOptions} />
           </div>
         </div>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
+        <div className="min-w-0 rounded-xl border border-slate-200 bg-white p-5">
           <h3 className="font-display text-sm font-semibold text-[#0B192C]">
             5-Year Profitability Margins (%)
           </h3>
@@ -954,16 +932,12 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
             FY 2020 – FY 2024 · Illustrative Sample Data
           </p>
           <div className="mt-4 h-[260px] w-full">
-            <Line
-              key={`rep-line-${reportScope}`}
-              data={marginLineData}
-              options={lineChartOptions}
-            />
+            <Line data={marginLineData} options={lineChartOptions} />
           </div>
         </div>
       </section>
 
-      {/* 5-Year Financial Performance Summary Table */}
+      {/* Five-Year Financial Performance Summary Table */}
       <section className="print-avoid-break rounded-xl border border-slate-200 bg-white">
         <div className="border-b border-slate-200 p-5">
           <h2 className="font-display text-base font-semibold text-[#0B192C]">
@@ -981,30 +955,18 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
               <thead className="border-b border-slate-200 bg-slate-50 text-slate-600">
                 <tr>
                   <th className="px-5 py-3 font-semibold">Fiscal Year</th>
-                  <th className="px-3 py-3 text-right font-semibold text-[#0B192C]">
-                    Rev A
-                  </th>
-                  <th className="px-3 py-3 text-right font-semibold text-[#0284C7]">
-                    Rev B
-                  </th>
-                  <th className="px-3 py-3 text-right font-semibold text-[#0B192C]">
-                    EBIT A
-                  </th>
-                  <th className="px-3 py-3 text-right font-semibold text-[#0284C7]">
-                    EBIT B
-                  </th>
+                  <th className="px-3 py-3 text-right font-semibold text-[#0B192C]">Rev A</th>
+                  <th className="px-3 py-3 text-right font-semibold text-[#0284C7]">Rev B</th>
+                  <th className="px-3 py-3 text-right font-semibold text-[#0B192C]">EBIT A</th>
+                  <th className="px-3 py-3 text-right font-semibold text-[#0284C7]">EBIT B</th>
                   <th className="px-3 py-3 text-right font-semibold text-[#0B192C]">
                     Net Inc A
                   </th>
                   <th className="px-3 py-3 text-right font-semibold text-[#0284C7]">
                     Net Inc B
                   </th>
-                  <th className="px-3 py-3 text-right font-semibold text-[#0B192C]">
-                    FCF A
-                  </th>
-                  <th className="px-5 py-3 text-right font-semibold text-[#0284C7]">
-                    FCF B
-                  </th>
+                  <th className="px-3 py-3 text-right font-semibold text-[#0B192C]">FCF A</th>
+                  <th className="px-5 py-3 text-right font-semibold text-[#0284C7]">FCF B</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -1106,8 +1068,8 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
         </div>
       </section>
 
-      {/* Profitability, Liquidity, Leverage & Cash Flow Indicators + Formula Traceability */}
-      <section className="rounded-xl border border-slate-200 bg-white">
+      {/* Financial Ratios & Formula Traceability Table */}
+      <section className="print-avoid-break rounded-xl border border-slate-200 bg-white">
         <div className="border-b border-slate-200 p-5">
           <h2 className="font-display text-base font-semibold text-[#0B192C]">
             Financial Indicators &amp; Formula Traceability Schedule · {selectedYear}
@@ -1144,36 +1106,27 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
                   const catLabel =
                     RATIO_CATEGORY_LABELS.find((c) => c.id === meta.category)?.label ??
                     meta.category;
+                  const spreadText = formatRatioSpread(evA, evB);
                   return (
-                    <tr key={meta.id} className="hover:bg-slate-50/60 align-top">
+                    <tr key={meta.id} className="align-top hover:bg-slate-50/60">
                       <td className="px-5 py-3 text-slate-500 whitespace-nowrap">
                         {catLabel}
                       </td>
                       <td className="px-4 py-3 font-semibold text-[#0B192C] whitespace-nowrap">
                         {meta.name}
                       </td>
-                      <td
-                        className={`px-4 py-3 text-right font-mono tabular-nums whitespace-nowrap ${
-                          evA.status === 'valid' ? 'text-[#0B192C]' : 'text-amber-700'
-                        }`}
-                      >
+                      <td className="px-4 py-3 text-right font-mono tabular-nums whitespace-nowrap text-[#0B192C]">
                         {evA.formattedValue}
                       </td>
-                      <td
-                        className={`px-4 py-3 text-right font-mono tabular-nums whitespace-nowrap ${
-                          evB.status === 'valid' ? 'text-[#0284C7]' : 'text-amber-700'
-                        }`}
-                      >
+                      <td className="px-4 py-3 text-right font-mono tabular-nums whitespace-nowrap text-[#0284C7]">
                         {evB.formattedValue}
                       </td>
                       <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-700 whitespace-nowrap">
-                        {formatRatioSpread(evA, evB)}
+                        {spreadText}
                       </td>
                       <td className="px-4 py-3 text-slate-600">
-                        <div className="font-mono text-[11px] text-[#0B192C]">
-                          {meta.formula}
-                        </div>
-                        <div className="mt-0.5 text-[11px] text-slate-400">
+                        <div className="font-mono text-[11px] text-[#0B192C]">{meta.formula}</div>
+                        <div className="mt-0.5 text-[11px] text-slate-500">
                           {meta.sourceStatement}
                         </div>
                       </td>
@@ -1222,18 +1175,14 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
                     RATIO_CATEGORY_LABELS.find((c) => c.id === ev.category)?.label ??
                     ev.category;
                   return (
-                    <tr key={ev.id} className="hover:bg-slate-50/60 align-top">
+                    <tr key={ev.id} className="align-top hover:bg-slate-50/60">
                       <td className="px-5 py-3 text-slate-500 whitespace-nowrap">
                         {catLabel}
                       </td>
                       <td className="px-4 py-3 font-semibold text-[#0B192C] whitespace-nowrap">
                         {ev.name}
                       </td>
-                      <td
-                        className={`px-4 py-3 text-right font-mono font-semibold tabular-nums whitespace-nowrap ${
-                          ev.status === 'valid' ? 'text-[#0B192C]' : 'text-amber-700'
-                        }`}
-                      >
+                      <td className="px-4 py-3 text-right font-mono font-semibold tabular-nums whitespace-nowrap text-[#0B192C]">
                         {ev.formattedValue}
                       </td>
                       <td className="px-4 py-3 font-mono text-[11px] text-slate-700">

@@ -25,6 +25,7 @@ interface LearningCenterPageProps {
 }
 
 type LearningTabId = 'concepts' | 'ratio-guide' | 'ais-architecture';
+
 type RatioGuideCategory =
   | 'all'
   | 'profitability'
@@ -209,7 +210,6 @@ const ACCOUNTING_CONCEPTS: AccountingConceptItem[] = [
 ];
 
 const RATIO_GUIDE_ITEMS: RatioGuideItem[] = [
-  // Profitability
   {
     id: 'operating-margin',
     name: 'Operating Margin',
@@ -270,8 +270,7 @@ const RATIO_GUIDE_ITEMS: RatioGuideItem[] = [
     categoryLabel: 'Profitability',
     formula: "Net Income ÷ Average Shareholders' Equity × 100",
     numerator: 'Net Income / Loss',
-    denominator:
-      "Average Shareholders' Equity = (Beginning Equity + Ending Equity) ÷ 2",
+    denominator: "Average Shareholders' Equity = (Beginning Equity + Ending Equity) ÷ 2",
     definition:
       "Measures net earnings generated per dollar of average shareholders' equity capital over the fiscal period.",
     directionalGuidance:
@@ -302,8 +301,6 @@ const RATIO_GUIDE_ITEMS: RatioGuideItem[] = [
     availabilityNote:
       'Average Balance Rule: In AIRLYTICS, FY 2020 Asset Turnover displays N/A because FY 2019 opening Total Assets are unavailable.',
   },
-
-  // Liquidity
   {
     id: 'current-ratio',
     name: 'Current Ratio',
@@ -340,8 +337,6 @@ const RATIO_GUIDE_ITEMS: RatioGuideItem[] = [
     availabilityNote:
       'Unavailable Input Rule: Quick Ratio displays N/A in AIRLYTICS whenever Inventory is not present in the dataset.',
   },
-
-  // Leverage & Solvency
   {
     id: 'debt-to-equity',
     name: 'Debt-to-Equity Ratio',
@@ -412,8 +407,6 @@ const RATIO_GUIDE_ITEMS: RatioGuideItem[] = [
     availabilityNote:
       'Unavailable Input Rule: Net Debt / EBITDA displays N/A in AIRLYTICS unless Cash & Cash Equivalents and EBITDA (requiring D&A disclosures) are available.',
   },
-
-  // Cash Flow Efficiency
   {
     id: 'free-cash-flow',
     name: 'Free Cash Flow (FCF)',
@@ -545,7 +538,7 @@ const AIS_ARCHITECTURE_STAGES: ArchitectureStage[] = [
       {
         name: 'Horizontal & Vertical Analysis',
         detail:
-          'Computes YoY % changes (with zero-crossing turnaround/transition detection) and common-size % of Operating Revenue / Total Assets dynamically. The current Cash Flow Statement implementation contains only Operating Cash Flow, Capital Expenditures, and Free Cash Flow—complete operating, investing, and financing sections are not yet implemented.',
+          'Computes YoY % changes and common-size % of Operating Revenue / Total Assets dynamically across the three financial statement views. Cash Flow Statement coverage is currently limited to the available illustrative inputs (Operating Cash Flow, Capital Expenditures, and Free Cash Flow).',
       },
       {
         name: 'Reconciled Financial Ratio Calculations',
@@ -570,7 +563,7 @@ const AIS_ARCHITECTURE_STAGES: ArchitectureStage[] = [
       {
         name: 'React + TypeScript + Tailwind CSS UI',
         detail:
-          'Responsive multi-page workspace covering Dashboard, Companies, Financial Analysis, Company Comparison, Financial Ratios, and Learning Center.',
+          'Responsive multi-page workspace covering Dashboard, Companies, Financial Analysis, Company Comparison, Financial Ratios, Learning Center, and Reports.',
       },
       {
         name: 'Chart.js Visualizations (react-chartjs-2)',
@@ -649,6 +642,21 @@ function StatusLabel({ status }: { status: 'Currently Implemented' | 'Planned' }
   );
 }
 
+function stageIcon(id: string) {
+  switch (id) {
+    case 'data-sources':
+      return FileSpreadsheet;
+    case 'data-storage':
+      return Database;
+    case 'data-processing':
+      return Cpu;
+    case 'financial-analysis':
+      return Calculator;
+    default:
+      return Monitor;
+  }
+}
+
 export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
   onReturnToDashboard,
   onOpenMethodology,
@@ -658,11 +666,9 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
   const [expandedConceptIds, setExpandedConceptIds] = useState<Record<string, boolean>>({
     'air-traffic-liability': false,
   });
-
   const [ratioQuery, setRatioQuery] = useState<string>('');
   const [ratioCategory, setRatioCategory] = useState<RatioGuideCategory>('all');
   const [expandedRatioIds, setExpandedRatioIds] = useState<Record<string, boolean>>({});
-
   const [selectedStageId, setSelectedStageId] = useState<string>('data-sources');
 
   const toggleConceptExpand = (id: string) => {
@@ -703,21 +709,6 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
     });
   }, [ratioQuery, ratioCategory]);
 
-  const stageIcon = (id: string) => {
-    switch (id) {
-      case 'data-sources':
-        return FileSpreadsheet;
-      case 'data-storage':
-        return Database;
-      case 'data-processing':
-        return Cpu;
-      case 'financial-analysis':
-        return Calculator;
-      default:
-        return Monitor;
-    }
-  };
-
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -726,7 +717,7 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
           <button
             type="button"
             onClick={onReturnToDashboard}
-            className="mb-3 inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-[#0B192C] transition-colors"
+            className="mb-3 inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 transition-colors hover:text-[#0B192C]"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             <span>Back to Dashboard</span>
@@ -770,7 +761,7 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
         <button
           type="button"
           onClick={onOpenMethodology}
-          className="shrink-0 self-start rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-[#0B192C] hover:bg-slate-100 transition-colors sm:self-center whitespace-nowrap"
+          className="shrink-0 self-start rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-[#0B192C] transition-colors hover:bg-slate-100 sm:self-center whitespace-nowrap"
         >
           View Data Policy
         </button>
@@ -842,7 +833,7 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
         </div>
       </section>
 
-      {/* TAB A: Accounting Concepts */}
+      {/* TAB 1: Accounting Concepts */}
       {activeTab === 'concepts' && (
         <section aria-label="Airline Accounting Concepts" className="space-y-5">
           <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
@@ -894,7 +885,7 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
                         type="button"
                         onClick={() => toggleConceptExpand(concept.id)}
                         aria-expanded={isExpanded}
-                        className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-[#0B192C] hover:bg-slate-100 transition-colors whitespace-nowrap"
+                        className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-[#0B192C] transition-colors hover:bg-slate-100 whitespace-nowrap"
                       >
                         <span>{isExpanded ? 'Hide Learn More' : 'Learn More'}</span>
                         {isExpanded ? (
@@ -963,12 +954,8 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
                               <thead className="border-b border-slate-200 bg-slate-50 text-slate-600">
                                 <tr>
                                   <th className="px-3 py-2 font-semibold">Account / Event</th>
-                                  <th className="px-3 py-2 text-right font-semibold">
-                                    Debit
-                                  </th>
-                                  <th className="px-3 py-2 text-right font-semibold">
-                                    Credit
-                                  </th>
+                                  <th className="px-3 py-2 text-right font-semibold">Debit</th>
+                                  <th className="px-3 py-2 text-right font-semibold">Credit</th>
                                 </tr>
                               </thead>
                               <tbody className="divide-y divide-slate-100">
@@ -1014,7 +1001,7 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
                         <div className="text-xs font-semibold text-[#0B192C]">
                           Learn More: {concept.learnMoreTitle}
                         </div>
-                        <ul className="mt-2 space-y-1.5 pl-4 text-xs leading-relaxed text-slate-600 list-disc">
+                        <ul className="mt-2 list-disc space-y-1.5 pl-4 text-xs leading-relaxed text-slate-600">
                           {concept.learnMorePoints.map((pt) => (
                             <li key={pt}>{pt}</li>
                           ))}
@@ -1029,10 +1016,9 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
         </section>
       )}
 
-      {/* TAB B: Ratio Guide */}
+      {/* TAB 2: Ratio Guide */}
       {activeTab === 'ratio-guide' && (
         <section aria-label="Financial Ratio Reference Guide" className="space-y-5">
-          {/* Search & Category Filter Bar */}
           <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-5">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
               <div>
@@ -1079,7 +1065,6 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
             </div>
           </div>
 
-          {/* Methodological Guardrails */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="rounded-xl border border-slate-200 bg-white p-4 text-xs leading-relaxed text-slate-600">
               <div className="font-semibold text-[#0B192C]">
@@ -1112,7 +1097,6 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
             </div>
           </div>
 
-          {/* Ratio Cards */}
           {filteredRatios.length === 0 ? (
             <div className="rounded-xl border border-slate-200 bg-white p-8 text-center text-xs text-slate-500">
               No ratios match &quot;{ratioQuery}&quot; in the selected category.
@@ -1140,7 +1124,7 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
                           type="button"
                           onClick={() => toggleRatioExpand(item.id)}
                           aria-expanded={isExpanded}
-                          className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-[#0B192C] hover:bg-slate-100 transition-colors whitespace-nowrap"
+                          className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-[#0B192C] transition-colors hover:bg-slate-100 whitespace-nowrap"
                         >
                           <span>{isExpanded ? 'Collapse' : 'Deep Dive'}</span>
                           {isExpanded ? (
@@ -1191,9 +1175,7 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
                             <span className="font-semibold text-[#0B192C]">
                               Higher vs. Lower Indication:{' '}
                             </span>
-                            <span className="text-slate-600">
-                              {item.directionalGuidance}
-                            </span>
+                            <span className="text-slate-600">{item.directionalGuidance}</span>
                           </div>
                           <div>
                             <span className="font-semibold text-[#0B192C]">
@@ -1225,10 +1207,9 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
         </section>
       )}
 
-      {/* TAB C: AIS Architecture */}
+      {/* TAB 3: AIS Architecture */}
       {activeTab === 'ais-architecture' && (
         <section aria-label="AIRLYTICS AIS Architecture" className="space-y-6">
-          {/* Interactive Visual Flow Diagram */}
           <div className="rounded-xl border border-slate-200 bg-white p-5">
             <div className="flex flex-col gap-2 border-b border-slate-100 pb-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -1281,7 +1262,7 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
                       </div>
                     </button>
                     {idx < AIS_ARCHITECTURE_STAGES.length - 1 && (
-                      <div className="hidden lg:flex items-center justify-center text-slate-300">
+                      <div className="hidden items-center justify-center text-slate-300 lg:flex">
                         <ArrowRight className="h-4 w-4 shrink-0" />
                       </div>
                     )}
@@ -1291,7 +1272,6 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
             </div>
           </div>
 
-          {/* All 5 Detailed Stage Breakdowns */}
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             {AIS_ARCHITECTURE_STAGES.map((stage) => {
               const Icon = stageIcon(stage.id);
@@ -1344,7 +1324,6 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
             })}
           </div>
 
-          {/* Technology Implementation Honesty Matrix */}
           <div className="rounded-xl border border-slate-200 bg-white">
             <div className="border-b border-slate-200 p-5">
               <h2 className="font-display text-base font-semibold text-[#0B192C]">
