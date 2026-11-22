@@ -118,24 +118,31 @@ const ACCOUNTING_CONCEPTS: AccountingConceptItem[] = [
     whyItMatters:
       'Airlines rely heavily on leased narrow-body and wide-body aircraft. Capitalizing aircraft leases significantly increases Total Assets and Total Interest-Bearing Debt / Lease Obligations, directly shaping Debt-to-Equity and Debt-to-Assets ratios.',
     exampleCaption:
-      'Illustrative Example: Airline enters a multi-year aircraft lease with a $50.0M present value of fixed lease payments.',
+      'Illustrative Example (IFRS 16 — Simplified Illustrative Entries): Airline enters a multi-year aircraft lease with a $50.0M present value of fixed lease payments. Actual entries and timing depend on the lease payment schedule and accounting policy.',
     journalEntries: [
       { account: '1. Initial recognition at lease commencement:' },
       { account: '   Right-of-Use (ROU) Aircraft Asset', debit: '$50.0M' },
       { account: '      Lease Liability', credit: '$50.0M' },
-      { account: '2. Subsequent period (financing-style illustrative pattern):' },
-      { account: '   Depreciation Expense (ROU Asset) & Interest Expense', debit: 'Recognized' },
-      { account: '   Lease Liability (principal reduction) / Cash outflow', credit: 'Settled' },
+      { account: '2. Subsequent period — Depreciation (IFRS 16, Simplified Illustrative):' },
+      { account: '   Depreciation Expense – ROU Asset', debit: 'Dr.' },
+      { account: '      Accumulated Depreciation – ROU Asset', credit: 'Cr.' },
+      { account: '3. Subsequent period — Interest Accrual (Simplified Illustrative):' },
+      { account: '   Interest Expense', debit: 'Dr.' },
+      { account: '      Lease Liability', credit: 'Cr.' },
+      { account: '4. Subsequent period — Lease Payment (Simplified Illustrative):' },
+      { account: '   Lease Liability (Principal Portion)', debit: 'Dr.' },
+      { account: '   Interest Payable / Interest Expense (if paid at the same time)', debit: 'Dr.' },
+      { account: '      Cash (Total Lease Payment)', credit: 'Cr.' },
     ],
     additionalConceptualNote:
-      'IFRS 16 vs. US GAAP (ASC 842) Presentation: IFRS 16 applies a single lessee model where virtually all leases (above short-term/low-value exemptions) split expense into ROU Depreciation (operating) and Interest Expense (finance costs). US GAAP ASC 842 retains a dual-model: Finance Leases split depreciation + interest, whereas Operating Leases generally recognize a single straight-line Lease Expense within Operating Expenses.',
+      'IFRS 16 vs. US GAAP (ASC 842) Presentation: IFRS 16 applies a single lessee model where virtually all leases (above short-term/low-value exemptions) split expense into ROU Depreciation (operating) and Interest Expense (finance costs). Note that actual subsequent-period entries and timing (such as whether interest is accrued to Lease Liability or Interest Payable before cash settlement) depend on the lease payment schedule and accounting policy. US GAAP ASC 842 retains a dual-model: Finance Leases split depreciation + interest, whereas Operating Leases generally recognize a single straight-line Lease Expense within Operating Expenses.',
     practicalInterpretation:
       'When comparing an IFRS airline against a US GAAP airline, operating profit (EBIT) and interest coverage can differ solely due to lease expense classification—even when fleet economics and cash lease payments are identical.',
     learnMoreTitle: 'Balance Sheet & Ratio Impact Across Standards',
     learnMorePoints: [
       'Under both IFRS 16 and ASC 842, lease liabilities are included when evaluating total debt-like obligations in leverage analysis.',
       'Because IFRS 16 pushes part of lease cost into Finance Costs (below Operating Profit), an IFRS carrier may report slightly higher Operating Margin than an otherwise identical US GAAP carrier with operating leases.',
-      'Simplified examples assume fixed lease payments; actual contracts often include variable flight-hour charges, return-condition obligations, and extension options.',
+      'Simplified illustrative entries depend on the lease payment schedule (e.g., payments in arrears vs. advance) and entity accounting policy; actual contracts may also include variable flight-hour charges, return-condition obligations, and extension options.',
     ],
   },
   {
