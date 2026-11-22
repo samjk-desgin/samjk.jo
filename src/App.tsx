@@ -1,9 +1,8 @@
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { DashboardPage } from './components/dashboard/DashboardPage';
 import { MethodologyModal } from './components/layout/MethodologyModal';
 import { Sidebar } from './components/layout/Sidebar';
 import { TopHeader } from './components/layout/TopHeader';
-import { ModuleScaffoldPage } from './components/pages/ModuleScaffoldPage';
 import { FinancialAnalysisPage } from './components/pages/FinancialAnalysisPage';
 import { FinancialRatiosPage } from './components/pages/FinancialRatiosPage';
 import { CompanyComparisonPage } from './components/pages/CompanyComparisonPage';
@@ -12,6 +11,54 @@ import { LearningCenterPage } from './components/pages/LearningCenterPage';
 import { ReportsPage } from './components/pages/ReportsPage';
 import { NAVIGATION_ITEMS } from './data/illustrativeData';
 import { PageId } from './types/analytics';
+
+interface RoutedPageProps {
+  onNavigate: (page: PageId) => void;
+  onReturnToDashboard: () => void;
+  onOpenMethodology: () => void;
+}
+
+const PAGE_COMPONENTS: Record<PageId, React.ComponentType<RoutedPageProps>> = {
+  dashboard: ({ onNavigate, onOpenMethodology }) => (
+    <DashboardPage onNavigate={onNavigate} onOpenMethodology={onOpenMethodology} />
+  ),
+  companies: ({ onReturnToDashboard, onOpenMethodology }) => (
+    <CompaniesPage
+      onReturnToDashboard={onReturnToDashboard}
+      onOpenMethodology={onOpenMethodology}
+    />
+  ),
+  'financial-analysis': ({ onReturnToDashboard, onOpenMethodology }) => (
+    <FinancialAnalysisPage
+      onReturnToDashboard={onReturnToDashboard}
+      onOpenMethodology={onOpenMethodology}
+    />
+  ),
+  'company-comparison': ({ onReturnToDashboard, onOpenMethodology }) => (
+    <CompanyComparisonPage
+      onReturnToDashboard={onReturnToDashboard}
+      onOpenMethodology={onOpenMethodology}
+    />
+  ),
+  'financial-ratios': ({ onReturnToDashboard, onOpenMethodology }) => (
+    <FinancialRatiosPage
+      onReturnToDashboard={onReturnToDashboard}
+      onOpenMethodology={onOpenMethodology}
+    />
+  ),
+  'learning-center': ({ onReturnToDashboard, onOpenMethodology }) => (
+    <LearningCenterPage
+      onReturnToDashboard={onReturnToDashboard}
+      onOpenMethodology={onOpenMethodology}
+    />
+  ),
+  reports: ({ onReturnToDashboard, onOpenMethodology }) => (
+    <ReportsPage
+      onReturnToDashboard={onReturnToDashboard}
+      onOpenMethodology={onOpenMethodology}
+    />
+  ),
+};
 
 export default function App() {
   const [activePage, setActivePage] = useState<PageId>('dashboard');
@@ -23,6 +70,8 @@ export default function App() {
       NAVIGATION_ITEMS.find((item) => item.id === activePage) ?? NAVIGATION_ITEMS[0],
     [activePage]
   );
+
+  const ActivePageComponent = PAGE_COMPONENTS[activePage];
 
   return (
     <div className="flex min-h-screen bg-[#F4F6F9] text-[#0F172A]">
@@ -42,47 +91,11 @@ export default function App() {
         />
 
         <main className="mx-auto w-full max-w-[1440px] flex-1 px-4 py-6 sm:px-6 lg:px-8">
-          {activePage === 'dashboard' ? (
-            <DashboardPage
-              onNavigate={setActivePage}
-              onOpenMethodology={() => setMethodologyOpen(true)}
-            />
-          ) : activePage === 'companies' ? (
-            <CompaniesPage
-              onReturnToDashboard={() => setActivePage('dashboard')}
-              onOpenMethodology={() => setMethodologyOpen(true)}
-            />
-          ) : activePage === 'financial-analysis' ? (
-            <FinancialAnalysisPage
-              onReturnToDashboard={() => setActivePage('dashboard')}
-              onOpenMethodology={() => setMethodologyOpen(true)}
-            />
-          ) : activePage === 'company-comparison' ? (
-            <CompanyComparisonPage
-              onReturnToDashboard={() => setActivePage('dashboard')}
-              onOpenMethodology={() => setMethodologyOpen(true)}
-            />
-          ) : activePage === 'financial-ratios' ? (
-            <FinancialRatiosPage
-              onReturnToDashboard={() => setActivePage('dashboard')}
-              onOpenMethodology={() => setMethodologyOpen(true)}
-            />
-          ) : activePage === 'learning-center' ? (
-            <LearningCenterPage
-              onReturnToDashboard={() => setActivePage('dashboard')}
-              onOpenMethodology={() => setMethodologyOpen(true)}
-            />
-          ) : activePage === 'reports' ? (
-            <ReportsPage
-              onReturnToDashboard={() => setActivePage('dashboard')}
-              onOpenMethodology={() => setMethodologyOpen(true)}
-            />
-          ) : (
-            <ModuleScaffoldPage
-              pageId={activePage}
-              onReturnToDashboard={() => setActivePage('dashboard')}
-            />
-          )}
+          <ActivePageComponent
+            onNavigate={setActivePage}
+            onReturnToDashboard={() => setActivePage('dashboard')}
+            onOpenMethodology={() => setMethodologyOpen(true)}
+          />
         </main>
 
         <footer className="border-t border-slate-200 bg-white px-4 py-4 text-xs text-slate-500 sm:px-6 lg:px-8 print:hidden">

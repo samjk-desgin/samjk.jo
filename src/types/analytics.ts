@@ -55,20 +55,6 @@ export interface IllustrativeCarrierProfile {
   costStructurePct: CostStructureItem[];
 }
 
-export interface PageBlueprint {
-  id: PageId;
-  title: string;
-  subtitle: string;
-  purpose: string;
-  aisFocus: string;
-  plannedComponents: {
-    name: string;
-    description: string;
-  }[];
-  requiredOfficialInputs: string[];
-  previewTabs: string[];
-}
-
 export type RatioCategory =
   | 'profitability'
   | 'liquidity'
