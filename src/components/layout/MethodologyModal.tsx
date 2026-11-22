@@ -25,7 +25,7 @@ export const MethodologyModal: React.FC<MethodologyModalProps> = ({ open, onClos
               id="methodology-modal-title"
               className="font-display text-lg font-semibold text-[#0B192C]"
             >
-              AIRLYTICS Development Methodology & Data Policy
+              Avantra Development Methodology & Data Policy
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
               Accounting Information Systems · Step-by-Step Build Documentation

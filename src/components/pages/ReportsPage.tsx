@@ -431,7 +431,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
         ? 'Carrier B Report'
         : 'Carrier A Report';
 
-    lines.push([csvEscape('AIRLYTICS Analytical Report'), csvEscape(scopeLabel)].join(','));
+    lines.push([csvEscape('Avantra Analytical Report'), csvEscape(scopeLabel)].join(','));
     lines.push([csvEscape('Focus Fiscal Year'), csvEscape(selectedYear)].join(','));
     lines.push(
       [
@@ -604,7 +604,7 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
     const slugYear = selectedYear.toLowerCase().replace(/\s+/g, '');
     const slugScope = reportScope === 'compare' ? 'comparative-a-vs-b' : reportScope;
     link.href = url;
-    link.download = `airlytics-${slugScope}-${slugYear}-report.csv`;
+    link.download = `avantra-${slugScope}-${slugYear}-report.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

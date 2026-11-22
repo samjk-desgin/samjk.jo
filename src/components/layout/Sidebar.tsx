@@ -82,7 +82,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </svg>
             </span>
             <span className="font-display text-lg font-bold tracking-tight text-white whitespace-nowrap">
-              AIRLYTICS
+              AVANTRA
             </span>
           </button>
 

@@ -30,7 +30,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
 
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm min-w-0">
           <span className="font-display font-semibold text-[#0B192C] whitespace-nowrap shrink-0">
-            AIRLYTICS
+            AVANTRA
           </span>
           <span className="text-slate-300 shrink-0" aria-hidden="true">
             /

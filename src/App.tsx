@@ -101,7 +101,7 @@ export default function App() {
         <footer className="border-t border-slate-200 bg-white px-4 py-4 text-xs text-slate-500 sm:px-6 lg:px-8 print:hidden">
           <div className="mx-auto flex max-w-[1440px] flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <span>
-              AIRLYTICS · University Accounting Information Systems & Business Analytics Project
+              Avantra · Numbers with altitude · University Accounting Information Systems &amp; Business Analytics Project
             </span>
             <span>
               Stage 2: Interactive Financial Analysis &amp; Benchmarking — Illustrative Data Mode

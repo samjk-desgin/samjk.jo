@@ -1,11 +1,13 @@
-# AIRLYTICS — Airline Financial Analytics & AIS Platform
+# Avantra — Airline Financial Analytics & AIS Platform
+
+> *Numbers with altitude.*
 
 **Current Stage:** Stage 2: Interactive Financial Analysis & Benchmarking — Illustrative Data Mode  
 **Version:** `0.2.0-alpha.1`
 
 ## Project Purpose
 
-AIRLYTICS is a university Accounting Information Systems (AIS) and Business Analytics web platform designed for multi-year airline financial analysis, accounting ratio traceability, and side-by-side carrier benchmarking.
+Avantra is a university Accounting Information Systems (AIS) and Business Analytics web platform designed for multi-year airline financial analysis, accounting ratio traceability, and side-by-side carrier benchmarking.
 
 ## Current Scope & Illustrative Data Policy
 

@@ -261,7 +261,7 @@ const RATIO_GUIDE_ITEMS: RatioGuideItem[] = [
     commonMistake:
       'Dividing full-year Net Income by ending assets alone rather than average beginning and ending assets, or misinterpreting an asset-light lessor strategy as automatically superior.',
     availabilityNote:
-      'Average Balance Rule: In AIRLYTICS, FY 2020 ROA displays N/A because FY 2019 opening Total Assets are unavailable; ending assets are never substituted silently.',
+      'Average Balance Rule: In Avantra, FY 2020 ROA displays N/A because FY 2019 opening Total Assets are unavailable; ending assets are never substituted silently.',
   },
   {
     id: 'roe',
@@ -280,7 +280,7 @@ const RATIO_GUIDE_ITEMS: RatioGuideItem[] = [
     commonMistake:
       'Assuming a high ROE automatically signals low-risk quality; an airline with tiny Shareholders’ Equity and heavy debt can display an elevated ROE despite high solvency risk.',
     availabilityNote:
-      "Average Balance Rule: In AIRLYTICS, FY 2020 ROE displays N/A because FY 2019 opening Shareholders' Equity is unavailable.",
+      "Average Balance Rule: In Avantra, FY 2020 ROE displays N/A because FY 2019 opening Shareholders' Equity is unavailable.",
   },
   {
     id: 'asset-turnover',
@@ -299,7 +299,7 @@ const RATIO_GUIDE_ITEMS: RatioGuideItem[] = [
     commonMistake:
       'Comparing carriers without checking fleet age or ownership mix; older depreciated fleets shrink the denominator and lift Asset Turnover even without operational improvement.',
     availabilityNote:
-      'Average Balance Rule: In AIRLYTICS, FY 2020 Asset Turnover displays N/A because FY 2019 opening Total Assets are unavailable.',
+      'Average Balance Rule: In Avantra, FY 2020 Asset Turnover displays N/A because FY 2019 opening Total Assets are unavailable.',
   },
   {
     id: 'current-ratio',
@@ -335,7 +335,7 @@ const RATIO_GUIDE_ITEMS: RatioGuideItem[] = [
     commonMistake:
       'Treating missing Inventory disclosures as zero and equating Quick Ratio with Current Ratio.',
     availabilityNote:
-      'Unavailable Input Rule: Quick Ratio displays N/A in AIRLYTICS whenever Inventory is not present in the dataset.',
+      'Unavailable Input Rule: Quick Ratio displays N/A in Avantra whenever Inventory is not present in the dataset.',
   },
   {
     id: 'debt-to-equity',
@@ -405,7 +405,7 @@ const RATIO_GUIDE_ITEMS: RatioGuideItem[] = [
     commonMistake:
       'Forgetting that EBITDA ignores recurring heavy aircraft CapEx required simply to keep a fleet modern and airworthy.',
     availabilityNote:
-      'Unavailable Input Rule: Net Debt / EBITDA displays N/A in AIRLYTICS unless Cash & Cash Equivalents and EBITDA (requiring D&A disclosures) are available.',
+      'Unavailable Input Rule: Net Debt / EBITDA displays N/A in Avantra unless Cash & Cash Equivalents and EBITDA (requiring D&A disclosures) are available.',
   },
   {
     id: 'free-cash-flow',
@@ -436,7 +436,7 @@ const RATIO_GUIDE_ITEMS: RatioGuideItem[] = [
     numerator: 'Free Cash Flow (Operating Cash Flow − Capital Expenditures)',
     denominator: 'Operating Revenue',
     definition:
-      'The percentage-based financial ratio in the AIRLYTICS Financial Ratios Engine that expresses Free Cash Flow as a percentage of Operating Revenue, normalizing cash generation across carriers of different sizes.',
+      'The percentage-based financial ratio in the Avantra Financial Ratios Engine that expresses Free Cash Flow as a percentage of Operating Revenue, normalizing cash generation across carriers of different sizes.',
     directionalGuidance:
       'Higher FCF Margin reflects stronger revenue-to-free-cash conversion after CapEx; negative values indicate cash burn or heavy fleet investment exceeding operating inflows.',
     airlineRelevance:
@@ -533,7 +533,7 @@ const AIS_ARCHITECTURE_STAGES: ArchitectureStage[] = [
     title: 'Financial Analysis Engine',
     status: 'Currently Implemented',
     summary:
-      'Dynamic client-side TypeScript accounting utilities currently powering AIRLYTICS in Illustrative Data Mode.',
+      'Dynamic client-side TypeScript accounting utilities currently powering Avantra in Illustrative Data Mode.',
     components: [
       {
         name: 'Horizontal & Vertical Analysis',
@@ -727,7 +727,7 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
           </h1>
           <p className="mt-1 text-sm text-slate-600">
             Interactive educational reference for airline financial accounting, standardized
-            ratio interpretation, and the AIRLYTICS Information Systems architecture.
+            ratio interpretation, and the Avantra Information Systems architecture.
           </p>
         </div>
 
@@ -1023,7 +1023,7 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
               <div>
                 <h2 className="font-display text-base font-semibold text-[#0B192C]">
-                  AIRLYTICS Standardized Financial Ratio Guide
+                  Avantra Standardized Financial Ratio Guide
                 </h2>
                 <p className="mt-0.5 text-xs text-slate-500">
                   Matches the exact formulas, average-balance rules, and N/A guards used across
@@ -1090,7 +1090,7 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
                 Context Over Universal Benchmarks
               </div>
               <p className="mt-1">
-                A higher ratio is not automatically better in every situation, and AIRLYTICS
+                A higher ratio is not automatically better in every situation, and Avantra
                 does not invent universal target values. Always interpret ratios alongside
                 business model and capital structure.
               </p>
@@ -1209,7 +1209,7 @@ export const LearningCenterPage: React.FC<LearningCenterPageProps> = ({
 
       {/* TAB 3: AIS Architecture */}
       {activeTab === 'ais-architecture' && (
-        <section aria-label="AIRLYTICS AIS Architecture" className="space-y-6">
+        <section aria-label="Avantra AIS Architecture" className="space-y-6">
           <div className="rounded-xl border border-slate-200 bg-white p-5">
             <div className="flex flex-col gap-2 border-b border-slate-100 pb-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
