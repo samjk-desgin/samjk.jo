@@ -46,7 +46,7 @@ export const NAVIGATION_ITEMS: NavItem[] = [
     id: 'reports',
     label: 'Reports',
     shortDescription: 'Structured analytical summaries and export views',
-    stageStatus: 'Planned',
+    stageStatus: 'Implemented',
   },
 ];
 

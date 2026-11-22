@@ -45,6 +45,8 @@ function formatYoYCell(
   if (currentVal === null) return 'N/A';
   if (priorVal === null) return 'Baseline';
   if (priorVal === 0) return 'N/A';
+  if (priorVal < 0 && currentVal > 0) return 'Turnaround: Loss to Profit';
+  if (priorVal > 0 && currentVal < 0) return 'Transition: Profit to Loss';
   const pct = ((currentVal - priorVal) / Math.abs(priorVal)) * 100;
   const sign = pct > 0 ? '+' : '';
   return `${sign}${pct.toFixed(1)}%`;
@@ -95,47 +97,47 @@ export const FinancialAnalysisPage: React.FC<FinancialAnalysisPageProps> = ({
       return [
         {
           id: 'op-rev',
-          label: 'Operating Revenue ($B)',
+          label: 'Operating Revenue',
           isTotal: true,
           getValue: (r) => r.operatingRevenueUsdB,
         },
         {
           id: 'op-exp',
-          label: 'Operating Expenses ($B)',
+          label: 'Operating Expenses',
           getValue: (r) => r.operatingExpensesUsdB,
         },
         {
           id: 'op-profit',
-          label: 'Operating Profit / Loss (EBIT) ($B)',
+          label: 'Operating Profit / Loss (EBIT)',
           formulaTooltip: 'Operating Revenue − Operating Expenses',
           isTotal: true,
           getValue: (r) => getOperatingProfit(r),
         },
         {
           id: 'non-op',
-          label: 'Non-Operating Income / (Expense), Net ($B)',
+          label: 'Non-Operating Income / (Expense), Net',
           getValue: (r) => r.nonOperatingNetUsdB,
         },
         {
           id: 'finance-costs',
-          label: 'Finance Costs ($B)',
+          label: 'Finance Costs',
           getValue: (r) => r.financeCostsUsdB,
         },
         {
           id: 'pre-tax',
-          label: 'Pre-Tax Income / Loss (EBT) ($B)',
+          label: 'Pre-Tax Income / Loss (EBT)',
           formulaTooltip: 'Operating Profit + Non-Operating Net − Finance Costs',
           isTotal: true,
           getValue: (r) => getPreTaxIncome(r),
         },
         {
           id: 'tax',
-          label: 'Income Tax Expense / (Benefit) ($B)',
+          label: 'Income Tax Expense / (Benefit)',
           getValue: (r) => r.incomeTaxExpenseUsdB,
         },
         {
           id: 'net-income',
-          label: 'Net Income / Loss ($B)',
+          label: 'Net Income / Loss',
           formulaTooltip: 'Pre-Tax Income − Income Tax Expense / (Benefit)',
           isTotal: true,
           getValue: (r) => getNetIncome(r),
@@ -147,12 +149,12 @@ export const FinancialAnalysisPage: React.FC<FinancialAnalysisPageProps> = ({
       return [
         {
           id: 'curr-assets',
-          label: 'Current Assets ($B)',
+          label: 'Current Assets',
           getValue: (r) => r.currentAssetsUsdB ?? null,
         },
         {
           id: 'non-curr-assets',
-          label: 'Non-Current Assets ($B)',
+          label: 'Non-Current Assets',
           formulaTooltip: 'Total Assets − Current Assets',
           getValue: (r) =>
             r.currentAssetsUsdB != null
@@ -161,18 +163,18 @@ export const FinancialAnalysisPage: React.FC<FinancialAnalysisPageProps> = ({
         },
         {
           id: 'total-assets',
-          label: 'Total Assets ($B)',
+          label: 'Total Assets',
           isTotal: true,
           getValue: (r) => r.totalAssetsUsdB,
         },
         {
           id: 'curr-liab',
-          label: 'Current Liabilities ($B)',
+          label: 'Current Liabilities',
           getValue: (r) => r.currentLiabilitiesUsdB ?? null,
         },
         {
           id: 'non-curr-liab',
-          label: 'Non-Current Liabilities ($B)',
+          label: 'Non-Current Liabilities',
           formulaTooltip: 'Total Liabilities − Current Liabilities',
           getValue: (r) =>
             r.currentLiabilitiesUsdB != null
@@ -181,26 +183,26 @@ export const FinancialAnalysisPage: React.FC<FinancialAnalysisPageProps> = ({
         },
         {
           id: 'total-liab',
-          label: 'Total Liabilities ($B)',
+          label: 'Total Liabilities',
           isTotal: true,
           getValue: (r) => r.totalLiabilitiesUsdB,
         },
         {
           id: 'interest-debt',
-          label: 'Total Interest-Bearing Debt ($B)',
+          label: 'Total Interest-Bearing Debt',
           formulaTooltip: 'Subset of Total Liabilities used as Debt-to-Equity numerator',
           isMemo: true,
           getValue: (r) => r.totalInterestBearingDebtUsdB ?? null,
         },
         {
           id: 'equity',
-          label: "Shareholders' Equity ($B)",
+          label: "Shareholders' Equity",
           isTotal: true,
           getValue: (r) => r.shareholdersEquityUsdB,
         },
         {
           id: 'liab-equity-check',
-          label: "Total Liabilities & Shareholders' Equity ($B)",
+          label: "Total Liabilities & Shareholders' Equity",
           formulaTooltip: "Total Liabilities + Shareholders' Equity (Reconciles to Total Assets)",
           isTotal: true,
           getValue: (r) =>
@@ -212,25 +214,25 @@ export const FinancialAnalysisPage: React.FC<FinancialAnalysisPageProps> = ({
     return [
       {
         id: 'ocf',
-        label: 'Operating Cash Flow ($B)',
+        label: 'Operating Cash Flow',
         isTotal: true,
         getValue: (r) => r.operatingCashFlowUsdB ?? null,
       },
       {
         id: 'capex',
-        label: 'Capital Expenditures ($B)',
+        label: 'Capital Expenditures',
         getValue: (r) => r.capitalExpendituresUsdB ?? null,
       },
       {
         id: 'fcf',
-        label: 'Free Cash Flow ($B)',
+        label: 'Free Cash Flow',
         formulaTooltip: 'Operating Cash Flow − Capital Expenditures',
         isTotal: true,
         getValue: (r) => getFreeCashFlow(r),
       },
       {
         id: 'rev-memo',
-        label: 'Memo: Operating Revenue ($B)',
+        label: 'Memo: Operating Revenue',
         formulaTooltip: 'Common-Size % denominator for Cash Flow Statement',
         isMemo: true,
         getValue: (r) => r.operatingRevenueUsdB,
@@ -270,12 +272,12 @@ export const FinancialAnalysisPage: React.FC<FinancialAnalysisPageProps> = ({
       return 'Displaying reported illustrative dollar figures in USD Billions ($B).';
     }
     if (analysisMode === 'horizontal') {
-      return 'Horizontal trend analysis: YoY % = (Current Year − Prior Year) ÷ |Prior Year| × 100.';
+      return 'Horizontal trend analysis (YoY %): YoY % = (Current Year − Prior Year) ÷ |Prior Year| × 100; zero-crossings are labeled Turnaround / Transition rather than % growth.';
     }
     if (statementTab === 'balance-sheet') {
-      return 'Vertical common-size analysis: each Balance Sheet line expressed as % of Total Assets.';
+      return 'Vertical common-size analysis (%): each Balance Sheet line expressed as % of Total Assets.';
     }
-    return 'Vertical common-size analysis: each line expressed as % of Operating Revenue.';
+    return 'Vertical common-size analysis (%): each line expressed as % of Operating Revenue.';
   }, [analysisMode, statementTab]);
 
   const activeStatementTitle =
@@ -288,8 +290,15 @@ export const FinancialAnalysisPage: React.FC<FinancialAnalysisPageProps> = ({
       ? carrierB.name
       : carrierA.name;
 
+  const getDisplayLineLabel = (line: StatementLineDefinition): string => {
+    if (analysisMode === 'reported') return `${line.label} ($B)`;
+    if (analysisMode === 'horizontal') return `${line.label} (YoY %)`;
+    return `${line.label} (% of Base)`;
+  };
+
   const renderLineLabelCell = (line: StatementLineDefinition) => {
     const isTooltipOpen = activeTooltipId === line.id;
+    const displayLabel = getDisplayLineLabel(line);
     return (
       <div className="relative flex items-center gap-1.5">
         <span
@@ -301,7 +310,7 @@ export const FinancialAnalysisPage: React.FC<FinancialAnalysisPageProps> = ({
               : 'font-medium text-slate-800'
           }`}
         >
-          {line.label}
+          {displayLabel}
         </span>
         {line.formulaTooltip && (
           <button

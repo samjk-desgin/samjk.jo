@@ -9,6 +9,7 @@ import { FinancialRatiosPage } from './components/pages/FinancialRatiosPage';
 import { CompanyComparisonPage } from './components/pages/CompanyComparisonPage';
 import { CompaniesPage } from './components/pages/CompaniesPage';
 import { LearningCenterPage } from './components/pages/LearningCenterPage';
+import { ReportsPage } from './components/pages/ReportsPage';
 import { NAVIGATION_ITEMS } from './data/illustrativeData';
 import { PageId } from './types/analytics';
 
@@ -71,6 +72,11 @@ export default function App() {
               onReturnToDashboard={() => setActivePage('dashboard')}
               onOpenMethodology={() => setMethodologyOpen(true)}
             />
+          ) : activePage === 'reports' ? (
+            <ReportsPage
+              onReturnToDashboard={() => setActivePage('dashboard')}
+              onOpenMethodology={() => setMethodologyOpen(true)}
+            />
           ) : (
             <ModuleScaffoldPage
               pageId={activePage}
@@ -79,7 +85,7 @@ export default function App() {
           )}
         </main>
 
-        <footer className="border-t border-slate-200 bg-white px-4 py-4 text-xs text-slate-500 sm:px-6 lg:px-8">
+        <footer className="border-t border-slate-200 bg-white px-4 py-4 text-xs text-slate-500 sm:px-6 lg:px-8 print:hidden">
           <div className="mx-auto flex max-w-[1440px] flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <span>
               AIRLYTICS · University Accounting Information Systems & Business Analytics Project

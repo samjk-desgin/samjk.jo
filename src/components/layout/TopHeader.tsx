@@ -16,7 +16,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   onOpenMethodology,
 }) => {
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-4 border-b border-slate-200 bg-white px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-4 border-b border-slate-200 bg-white px-4 sm:px-6 lg:px-8 print:hidden">
       {/* Left Zone: Mobile menu trigger + Contextual Breadcrumb */}
       <div className="flex items-center gap-3 min-w-0">
         <button
@@ -42,9 +42,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
             ·
           </span>
           <span className="hidden md:inline text-xs text-slate-500 whitespace-nowrap shrink-0">
-            {activePage === 'reports'
-              ? 'Architectural Blueprint'
-              : activePage === 'learning-center'
+            {activePage === 'learning-center'
               ? 'Educational Reference'
               : 'Illustrative Data Mode'}
           </span>

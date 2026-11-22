@@ -86,7 +86,7 @@ const ACCOUNTING_CONCEPTS: AccountingConceptItem[] = [
     title: 'Air Traffic Liability (Deferred Ticket Revenue)',
     standardsContext: 'IFRS 15 / ASC 606 · Revenue from Contracts with Customers',
     definition:
-      'Air Traffic Liability (ATL) is a current liability representing cash received in advance from passengers for tickets and ancillary services where the flight transportation obligation has not yet been performed.',
+      'Air Traffic Liability (ATL) is a contract liability representing cash received in advance from passengers for tickets and ancillary services where the flight transportation obligation has not yet been performed. Current versus non-current presentation depends on the expected timing of satisfying the transportation obligation, the normal operating cycle, and applicable presentation requirements.',
     whyItMatters:
       'Airlines routinely sell seats weeks or months prior to departure. Collecting cash up front improves near-term cash flow, while creating a substantial deferred revenue liability on the Balance Sheet.',
     exampleCaption:
@@ -100,14 +100,14 @@ const ACCOUNTING_CONCEPTS: AccountingConceptItem[] = [
       { account: '      Passenger Operating Revenue', credit: '$1,200' },
     ],
     additionalConceptualNote:
-      'Unused Tickets & Refunds: Refundable tickets remain liabilities until flown or refunded in cash. Non-refundable tickets or travel credits may eventually generate "breakage" revenue if historical experience supports that customer redemption is remote, subject to applicable standard criteria and contract terms.',
+      'Current vs. Non-Current Classification & Unused Tickets: While most passenger tickets are expected to be flown or refunded within 12 months (and thus presented as current liabilities), multi-year travel credits or long-dated voucher obligations may require non-current presentation depending on expected settlement timing, the normal operating cycle, and IFRS 15 / ASC 606 / IAS 1 / ASC 210 presentation rules. Refundable tickets remain liabilities until flown or refunded; non-refundable tickets may yield "breakage" revenue only when criteria for remote redemption are met.',
     practicalInterpretation:
-      'Because Air Traffic Liability sits inside Current Liabilities without requiring an immediate cash outflow to settle (it is settled by operating scheduled flights), airlines often operate with Current Ratios lower than non-transport industries without necessarily signaling insolvency.',
-    learnMoreTitle: 'Conceptual Nuances: Breakage, Codeshares, and Tax/Fee Pass-Throughs',
+      'Because the portion of Air Traffic Liability classified inside Current Liabilities is generally settled by operating scheduled flights rather than paying cash, airlines often operate with Current Ratios lower than non-transport industries without necessarily signaling insolvency.',
+    learnMoreTitle: 'Conceptual Nuances: Classification, Breakage, and Codeshares',
     learnMorePoints: [
       'Airport taxes and government passenger fees collected on behalf of authorities are generally excluded from Passenger Revenue and recorded as pass-through payables.',
       'When tickets are interline or codeshare flights operated by partner carriers, the marketing carrier settles interline payables rather than recognizing the full gross fare as its own flight revenue.',
-      'Recognition timing for unused flight credits ("breakage") depends on contractual expiry terms and reliable historical forfeiture data under IFRS 15 / ASC 606.',
+      'Extended travel vouchers or multi-year credits require evaluating expected redemption timing and the carrier’s normal operating cycle before classifying the entire balance as current.',
     ],
   },
   {
@@ -119,7 +119,7 @@ const ACCOUNTING_CONCEPTS: AccountingConceptItem[] = [
     whyItMatters:
       'Airlines rely heavily on leased narrow-body and wide-body aircraft. Capitalizing aircraft leases significantly increases Total Assets and Total Interest-Bearing Debt / Lease Obligations, directly shaping Debt-to-Equity and Debt-to-Assets ratios.',
     exampleCaption:
-      'Illustrative Example (IFRS 16 — Simplified Illustrative Entries): Airline enters a multi-year aircraft lease with a $50.0M present value of fixed lease payments. Actual entries and timing depend on the lease payment schedule and accounting policy.',
+      'Illustrative Example (IFRS 16 — Simplified Illustrative Entries): Airline enters a multi-year aircraft lease with a $50.0M present value of fixed lease payments. Option A and Option B below show two distinct interest-accrual policies—Interest Expense is recognized once per period (never twice).',
     journalEntries: [
       { account: '1. Initial recognition at lease commencement:' },
       { account: '   Right-of-Use (ROU) Aircraft Asset', debit: '$50.0M' },
@@ -127,16 +127,20 @@ const ACCOUNTING_CONCEPTS: AccountingConceptItem[] = [
       { account: '2. Subsequent period — Depreciation (IFRS 16, Simplified Illustrative):' },
       { account: '   Depreciation Expense – ROU Asset', debit: 'Dr.' },
       { account: '      Accumulated Depreciation – ROU Asset', credit: 'Cr.' },
-      { account: '3. Subsequent period — Interest Accrual (Simplified Illustrative):' },
-      { account: '   Interest Expense', debit: 'Dr.' },
-      { account: '      Lease Liability', credit: 'Cr.' },
-      { account: '4. Subsequent period — Lease Payment (Simplified Illustrative):' },
+      { account: '3A. Option A — Interest accrued into Lease Liability (Simplified Illustrative):' },
+      { account: '   Interest Expense (accrual)', debit: 'Dr.' },
+      { account: '      Lease Liability (accrued interest)', credit: 'Cr.' },
+      { account: '   Lease Liability (Principal + Accrued Interest paid)', debit: 'Dr.' },
+      { account: '      Cash (Total Lease Payment)', credit: 'Cr.' },
+      { account: '3B. Option B — Separate Interest Payable / Simultaneous Payment:' },
+      { account: '   Interest Expense (if accrued prior to payment)', debit: 'Dr.' },
+      { account: '      Interest Payable', credit: 'Cr.' },
       { account: '   Lease Liability (Principal Portion)', debit: 'Dr.' },
-      { account: '   Interest Payable / Interest Expense (if paid at the same time)', debit: 'Dr.' },
+      { account: '   Interest Payable (or Interest Expense only if not pre-accrued)', debit: 'Dr.' },
       { account: '      Cash (Total Lease Payment)', credit: 'Cr.' },
     ],
     additionalConceptualNote:
-      'IFRS 16 vs. US GAAP (ASC 842) Presentation: IFRS 16 applies a single lessee model where virtually all leases (above short-term/low-value exemptions) split expense into ROU Depreciation (operating) and Interest Expense (finance costs). Note that actual subsequent-period entries and timing (such as whether interest is accrued to Lease Liability or Interest Payable before cash settlement) depend on the lease payment schedule and accounting policy. US GAAP ASC 842 retains a dual-model: Finance Leases split depreciation + interest, whereas Operating Leases generally recognize a single straight-line Lease Expense within Operating Expenses.',
+      'IFRS 16 vs. US GAAP (ASC 842) Presentation: IFRS 16 applies a single lessee model where virtually all leases (above short-term/low-value exemptions) split expense into ROU Depreciation (operating) and Interest Expense (finance costs). In Option A, interest accrues directly into the Lease Liability and the cash payment reduces that Lease Liability; in Option B, interest is tracked via Interest Payable (or recognized at simultaneous payment if not previously accrued)—ensuring principal reduces Lease Liability and Interest Expense is never recorded twice. US GAAP ASC 842 retains a dual-model: Finance Leases split depreciation + interest, whereas Operating Leases generally recognize a single straight-line Lease Expense within Operating Expenses.',
     practicalInterpretation:
       'When comparing an IFRS airline against a US GAAP airline, operating profit (EBIT) and interest coverage can differ solely due to lease expense classification—even when fleet economics and cash lease payments are identical.',
     learnMoreTitle: 'Balance Sheet & Ratio Impact Across Standards',
@@ -541,7 +545,7 @@ const AIS_ARCHITECTURE_STAGES: ArchitectureStage[] = [
       {
         name: 'Horizontal & Vertical Analysis',
         detail:
-          'Computes YoY % changes and common-size % of Operating Revenue / Total Assets dynamically across the three financial statement views. Cash Flow Statement coverage is currently limited to the available illustrative inputs (Operating Cash Flow, Capital Expenditures, and Free Cash Flow).',
+          'Computes YoY % changes (with zero-crossing turnaround/transition detection) and common-size % of Operating Revenue / Total Assets dynamically. The current Cash Flow Statement implementation contains only Operating Cash Flow, Capital Expenditures, and Free Cash Flow—complete operating, investing, and financing sections are not yet implemented.',
       },
       {
         name: 'Reconciled Financial Ratio Calculations',

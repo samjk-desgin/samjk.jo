@@ -19,7 +19,11 @@ interface CompaniesPageProps {
 
 type CompaniesTabId = 'entity-profiles' | 'filing-registry' | 'fleet-network';
 type CarrierId = 'carrier-a' | 'carrier-b';
-type SourceStatus = 'Pending' | 'Verified' | 'Not Available';
+type SourceStatus =
+  | 'Pending'
+  | 'Verified'
+  | 'Not Available'
+  | 'Illustrative Data Loaded — Official Verification Pending';
 
 interface ProfileMetadataRow {
   label: string;
@@ -56,8 +60,8 @@ const AIS_DATA_DOMAINS: {
   {
     domain: 'Financial Statements',
     tableHint: 'fact_financial_statement',
-    currentState: 'Stage 1 illustrative FY 2020 – FY 2024 series loaded',
-    status: 'Pending',
+    currentState: 'Illustrative FY 2020 – FY 2024 series loaded (not audited or verified)',
+    status: 'Illustrative Data Loaded — Official Verification Pending',
   },
   {
     domain: 'Official Filing Sources',
@@ -138,6 +142,14 @@ function StatusIndicator({ status }: { status: SourceStatus }) {
       <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700 whitespace-nowrap">
         <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
         <span>Verified</span>
+      </span>
+    );
+  }
+  if (status === 'Illustrative Data Loaded — Official Verification Pending') {
+    return (
+      <span className="inline-flex items-center gap-1 text-xs font-medium text-[#0284C7]">
+        <Info className="h-3.5 w-3.5 shrink-0" />
+        <span>Illustrative Data Loaded — Official Verification Pending</span>
       </span>
     );
   }

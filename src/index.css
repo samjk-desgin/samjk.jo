@@ -30,3 +30,17 @@
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
+
+@media print {
+  html,
+  body {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  .print-avoid-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+

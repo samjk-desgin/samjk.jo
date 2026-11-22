@@ -51,7 +51,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[264px] flex-col bg-[#0B192C] text-slate-100 border-r border-[#162944] transition-transform duration-200 ease-out lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-[264px] flex-col bg-[#0B192C] text-slate-100 border-r border-[#162944] transition-transform duration-200 ease-out lg:static lg:translate-x-0 print:hidden ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         aria-label="Primary Navigation"
