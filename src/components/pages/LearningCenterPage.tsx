@@ -541,7 +541,7 @@ const AIS_ARCHITECTURE_STAGES: ArchitectureStage[] = [
       {
         name: 'Horizontal & Vertical Analysis',
         detail:
-          'Computes YoY % changes and common-size % of Operating Revenue / Total Assets dynamically in the Three-Statement workspace.',
+          'Computes YoY % changes and common-size % of Operating Revenue / Total Assets dynamically across the three financial statement views. Cash Flow Statement coverage is currently limited to the available illustrative inputs (Operating Cash Flow, Capital Expenditures, and Free Cash Flow).',
       },
       {
         name: 'Reconciled Financial Ratio Calculations',
