@@ -522,7 +522,7 @@ export function evaluateRatio(
           formattedValue: 'N/A',
           status: 'unavailable',
           statusReason:
-            'Unavailable: Inventory data is not included in the Stage 1 illustrative dataset. Quick Ratio requires Current Assets, Inventory, and Current Liabilities.',
+            'Unavailable: Inventory data is not included in the illustrative dataset. Quick Ratio requires Current Assets, Inventory, and Current Liabilities.',
           numeratorLabel: 'Current Assets − Inventory',
           numeratorValueText:
             inv === null
@@ -674,7 +674,7 @@ export function evaluateRatio(
           formattedValue: 'N/A',
           status: 'unavailable',
           statusReason:
-            'Unavailable: Cash & Cash Equivalents and EBITDA (requiring Depreciation & Amortization disclosures) are not included in the Stage 1 illustrative dataset.',
+            'Unavailable: Cash & Cash Equivalents and EBITDA (requiring Depreciation & Amortization disclosures) are not included in the illustrative dataset.',
           numeratorLabel: 'Net Debt (Debt − Cash)',
           numeratorValueText:
             debt !== null

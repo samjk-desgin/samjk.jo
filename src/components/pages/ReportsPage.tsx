@@ -167,11 +167,11 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
           deA?.formattedValue ?? 'N/A'
         } for Carrier A versus ${
           deB?.formattedValue ?? 'N/A'
-        } for Carrier B. Quick Ratio and Net Debt / EBITDA remain N/A due to absent Inventory, Cash, and EBITDA disclosures${
+        } for Carrier B. Quick Ratio and Net Debt / EBITDA remain N/A because Inventory, Cash, EBITDA, and aviation-specific inputs are unavailable in the illustrative dataset${
           selectedYearIndex === 0
             ? '; FY 2020 ROA, ROE, and Asset Turnover are N/A because FY 2019 opening balances are unavailable'
             : ''
-        }.`,
+        }, and official financial statement sources have not yet been verified or loaded.`,
       ];
     }
 
@@ -223,11 +223,11 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
         row.operatingCashFlowUsdB ?? null
       )} minus CapEx ${formatCurrencyB(
         row.capitalExpendituresUsdB ?? null
-      )}). Quick Ratio and Net Debt / EBITDA remain N/A due to unavailable Stage 1/2 inputs${
+      )}). Quick Ratio and Net Debt / EBITDA remain N/A because Inventory, Cash, EBITDA, and aviation-specific inputs are unavailable in the illustrative dataset${
         selectedYearIndex === 0
           ? '; FY 2020 ROA, ROE, and Asset Turnover are N/A due to missing FY 2019 opening balances'
           : ''
-      }.`,
+      }, and official financial statement sources have not yet been verified or loaded.`,
     ];
   }, [
     reportScope,
@@ -554,6 +554,14 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
         const catLabel =
           RATIO_CATEGORY_LABELS.find((c) => c.id === meta.category)?.label ??
           meta.category;
+        const traceA =
+          evA.status === 'valid'
+            ? `${evA.numeratorValueText} / ${evA.denominatorValueText}`
+            : evA.statusReason ?? 'Missing required inputs';
+        const traceB =
+          evB.status === 'valid'
+            ? `${evB.numeratorValueText} / ${evB.denominatorValueText}`
+            : evB.statusReason ?? 'Missing required inputs';
         lines.push(
           [
             catLabel,
@@ -562,8 +570,8 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
             evB.formattedValue,
             formatRatioSpread(evA, evB),
             meta.formula,
-            `${evA.numeratorValueText} / ${evA.denominatorValueText}`,
-            `${evB.numeratorValueText} / ${evB.denominatorValueText}`,
+            traceA,
+            traceB,
             meta.sourceStatement,
           ]
             .map(csvEscape)
@@ -688,8 +696,9 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
               Illustrative Sample Data — Not Official Financial Results.
             </span>{' '}
             Source Verification: Pending Official Filing Selection. All values and narrative
-            summaries below are computed dynamically from the Stage 2 illustrative carrier
-            datasets.
+            summaries below are computed dynamically from the illustrative carrier datasets;
+            some financial and aviation-specific inputs remain unavailable, and official
+            financial statement sources have not yet been verified or loaded.
           </div>
         </div>
         <button
@@ -1169,20 +1178,26 @@ export const ReportsPage: React.FC<ReportsPageProps> = ({
                         </div>
                       </td>
                       <td className="px-5 py-3 text-[11px] text-slate-600">
-                        {evA.status === 'valid' ? (
-                          <div className="space-y-0.5 font-mono tabular-nums">
-                            <div>
+                        <div className="space-y-1">
+                          {evA.status === 'valid' ? (
+                            <div className="font-mono tabular-nums">
                               A: {evA.numeratorValueText} ÷ {evA.denominatorValueText}
                             </div>
-                            <div>
+                          ) : (
+                            <div className="text-amber-700">
+                              A: {evA.statusReason ?? 'Missing required inputs'}
+                            </div>
+                          )}
+                          {evB.status === 'valid' ? (
+                            <div className="font-mono tabular-nums">
                               B: {evB.numeratorValueText} ÷ {evB.denominatorValueText}
                             </div>
-                          </div>
-                        ) : (
-                          <span className="text-amber-700">
-                            {evA.statusReason ?? 'Missing required inputs'}
-                          </span>
-                        )}
+                          ) : (
+                            <div className="text-amber-700">
+                              B: {evB.statusReason ?? 'Missing required inputs'}
+                            </div>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   );
